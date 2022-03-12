@@ -20,7 +20,7 @@ require('dbConfig.php');
 		<link rel="icon" href="https://getbootstrap.com/docs/5.1/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
 		<link rel="manifest" href="https://getbootstrap.com/docs/5.1/assets/img/favicons/manifest.json">
 		<link rel="mask-icon" href="https://getbootstrap.com/docs/5.1/assets/img/favicons/safari-pinned-tab.svg" color="#7952b3">
-		<link rel="icon" href="https://getbootstrap.com/docs/5.1/assets/img/favicons/favicon.ico">
+		<link rel="icon" href="<?php echo $PROJECT_LOGO; ?>">
 		<meta name="theme-color" content="#7952b3">
 		<style>
 			.bd-placeholder-img {
@@ -54,7 +54,7 @@ require('dbConfig.php');
 		<div class="container">
 			<main>
 				<div class="py-5 text-center">
-					<img class="d-block mx-auto mb-4" src="https://getbootstrap.com/docs/5.1/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
+					<img class="d-block mx-auto mb-4" src="<?php echo $PROJECT_LOGO; ?>" alt="" width="64">
 					<h2><?php echo $PROJECT_NAME; ?> login panel</h2>
 					<p class="lead">Please enter the credentials required below to get started using the <?php echo $PROJECT_NAME; ?> and collaborate with your team by sharing content securely across the internet.</p>
 				</div>

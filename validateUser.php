@@ -37,6 +37,7 @@ if ($rowCount > 0)
             $sqlUpdateDataQuery = "UPDATE users SET accessCount = $resultantAccessCount, lastLogin = '$timeStamp' WHERE Email = '$clientEmail'";
             $sqlUpdateDataQueryResult = mysqli_query($dbConnection, $sqlUpdateDataQuery);
 
+            $_SESSION["AUTH"] = true;
             $_SESSION["USER_NAME"] = $rowData["Name"];
             $_SESSION["USER_EMAIL"] = $rowData["Email"];
         }
