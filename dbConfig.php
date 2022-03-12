@@ -2,7 +2,8 @@
 
 /* Variables */
 $PROJECT_NAME = 'Secure FTP';
-$PROJECT_LOGO = 'https://cdn-icons-png.flaticon.com/512/2438/2438078.png';
+$PROJECT_LOGO = 'assets/images/logo.png';
+$PROJECT_THEME_COLOR = '#0D6EFD';
 
 /* Database credentials */
 $hostName = 'localhost';

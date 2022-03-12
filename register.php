@@ -18,7 +18,7 @@ require('dbConfig.php');
 		<link rel="manifest" href="https://getbootstrap.com/docs/5.1/assets/img/favicons/manifest.json">
 		<link rel="mask-icon" href="https://getbootstrap.com/docs/5.1/assets/img/favicons/safari-pinned-tab.svg" color="#7952b3">
 		<link rel="icon" href="<?php echo $PROJECT_LOGO; ?>">
-		<meta name="theme-color" content="#7952b3">
+		<meta name="theme-color" content="<?php echo $PROJECT_THEME_COLOR; ?>">
 		<style>
 			.bd-placeholder-img {
 				font-size: 1.125rem;
@@ -129,7 +129,7 @@ require('dbConfig.php');
                         success: function(resultData) {
                             $('#staticBackdrop').modal('hide');
 							alert(resultData)
-							window.location.href = 'login.php';
+							window.location.href = 'login';
                         },
                         error: function(resultData) {
                             $('#staticBackdrop').modal('hide');
