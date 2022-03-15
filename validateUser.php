@@ -33,6 +33,21 @@ if ($rowCount > 0)
             $dbAccessCount = $rowData["accessCount"];
             $timeStamp = date("D d.m.Y h:i:s A");
 
+            $userIPAddress = json_decode(file_get_contents("http://httpbin.org/ip"), true)["origin"];
+            $geoLocationAPIURL = json_decode(file_get_contents("http://ip-api.com/json/$userIPAddress"), true);
+            $countryName = $geoLocationAPIURL["country"];
+            $regionName = $geoLocationAPIURL["regionName"];
+            $cityName = $geoLocationAPIURL["city"];
+            $zipCode = $geoLocationAPIURL["zip"];
+            $latitudeValue = $geoLocationAPIURL["lat"];
+            $longitudeValue = $geoLocationAPIURL["lon"];
+            $ispName = $geoLocationAPIURL["isp"];
+            $orgName = $geoLocationAPIURL["org"];
+
+            $sqlFetchUserQuery = $dbConnection->prepare("INSERT INTO `accessLogs` (`IP`, `countryName`, `regionName`, `cityName`, `ZIP`, `Latitude`, `Longitude`, `ISP`, `Organization`, `TimeStamp`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $sqlFetchUserQuery->bind_param('ssssssssss', $userIPAddress, $countryName, $regionName, $cityName, $zipCode, $latitudeValue, $longitudeValue, $ispName, $orgName, $timeStamp);
+            $sqlFetchUserQuery->execute();
+
             $resultantAccessCount = (int)$dbAccessCount + 1;
             $sqlUpdateDataQuery = "UPDATE users SET accessCount = $resultantAccessCount, lastLogin = '$timeStamp' WHERE Email = '$clientEmail'";
             $sqlUpdateDataQueryResult = mysqli_query($dbConnection, $sqlUpdateDataQuery);
