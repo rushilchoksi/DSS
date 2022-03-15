@@ -4,6 +4,7 @@
 $PROJECT_NAME = 'Secure FTP';
 $PROJECT_LOGO = 'assets/images/logo.png';
 $PROJECT_THEME_COLOR = '#0D6EFD';
+$SECURE_FILES_DIRECTORY = '/Applications/XAMPP/xamppfiles/htdocs/dss';
 
 /* Database credentials */
 $hostName = 'localhost';
@@ -24,5 +25,35 @@ function showFooter()
             <li class="list-inline-item"><a style="text-decoration: none;" href="index">Home</a></li>
         </ul>
     </footer>';
+}
+
+/* Get file size in human readable format */
+function formatSizeUnits($bytes)
+{
+    if ($bytes >= 1073741824)
+    {
+        $bytes = number_format($bytes / 1073741824, 2) . ' GB';
+    }
+    elseif ($bytes >= 1048576)
+    {
+        $bytes = number_format($bytes / 1048576, 2) . ' MB';
+    }
+    elseif ($bytes >= 1024)
+    {
+        $bytes = number_format($bytes / 1024, 2) . ' KB';
+    }
+    elseif ($bytes > 1)
+    {
+        $bytes = $bytes . ' bytes';
+    }
+    elseif ($bytes == 1)
+    {
+        $bytes = $bytes . ' byte';
+    }
+    else
+    {
+        $bytes = '0 bytes';
+    }
+    return $bytes;
 }
 ?>
