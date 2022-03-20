@@ -80,7 +80,7 @@ $filesList = scandir($SECURE_FILES_DIRECTORY);
                     {
                     ?>
                     <button type="button" class="btn btn-secondary">Upload files</button>
-                    <button type="button" class="btn btn-secondary" onclick="window.location.href = 'accessLogs'">View access logs</button>
+                    <button type="button" class="btn btn-secondary" onclick="window.open('accessLogs', '_blank');">View access logs</button>
                     <?php
                     }
                     ?>
