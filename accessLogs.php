@@ -18,7 +18,10 @@ else
     $greetingMsg = "Good evening, " . $_SESSION['USER_NAME'];
 
 $privilegeLevel = $_SESSION["USER_ROLE"];
-$filesList = scandir($SECURE_FILES_DIRECTORY);
+if ($privilegeLevel != "ADMIN")
+{
+    echo "<script>alert('You are not authorized to access this page, if you think there is an issue, please contact the administrator.'); window.location.href='index';</script>";
+}
 ?>
 <!doctype html>
 <html lang="en">
@@ -28,7 +31,7 @@ $filesList = scandir($SECURE_FILES_DIRECTORY);
 		<meta name="description" content="">
 		<meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
 		<meta name="generator" content="Hugo 0.88.1">
-		<title>Home · <?php echo $PROJECT_NAME; ?></title>
+		<title>Access Logs · <?php echo $PROJECT_NAME; ?></title>
 		<link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/checkout/">
 		<link href="https://getbootstrap.com/docs/5.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 		<link rel="icon" href="<?php echo $PROJECT_LOGO; ?>">
@@ -48,10 +51,6 @@ $filesList = scandir($SECURE_FILES_DIRECTORY);
 			}
             th {
                 text-align: center;
-            }
-            .downloadBtn, .downloadBtn:hover {
-                text-decoration: none;
-                color: white;
             }
 		</style>
 		<link href="https://getbootstrap.com/docs/5.1/examples/checkout/form-validation.css" rel="stylesheet">
@@ -74,16 +73,7 @@ $filesList = scandir($SECURE_FILES_DIRECTORY);
 				<div class="py-5 text-center">
 					<img class="d-block mx-auto mb-4" src="<?php echo $PROJECT_LOGO; ?>" alt="" width="64">
 					<h2><?php echo $greetingMsg; ?></h2>
-					<p class="lead">Browse from over <?php echo count($filesList) - 1; ?>+ files securely hosted on <?php echo $PROJECT_NAME; ?> and collaborate with your team by sharing content securely across the internet.</p>
-                    <?php
-                    if ($privilegeLevel == "ADMIN")
-                    {
-                    ?>
-                    <button type="button" class="btn btn-secondary">Upload files</button>
-                    <button type="button" class="btn btn-secondary" onclick="window.location.href = 'accessLogs'">View access logs</button>
-                    <?php
-                    }
-                    ?>
+					<p class="lead"><?php echo $PROJECT_NAME; ?>  logs data for each separate request and can also be exported to standardized file sharing formats from within the interface.</p>
 				</div>
 			</main>
 		</div>
@@ -91,42 +81,41 @@ $filesList = scandir($SECURE_FILES_DIRECTORY);
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>File</th>
-                        <th>Size</th>
-                        <th>Last Accessed</th>
-                        <th>Last Modified</th>
-                        <th>Checksum (SHA256)</th>
-                        <th>Action</th>
+                        <th>ID</th>
+                        <th>IP</th>
+                        <th>Country</th>
+                        <th>Region</th>
+                        <th>City</th>
+                        <th>ZIP</th>
+                        <th>Latitude</th>
+                        <th>Longitude</th>
+                        <th>ISP</th>
+                        <th>Organization</th>
+                        <th>TimeStamp</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
-                    foreach ($filesList as $fileName)
+                    $sqlFetchAccessLogsQuery = "SELECT * FROM `accessLogs`";
+                    if ($sqlFetchResult = mysqli_query($dbConnection, $sqlFetchAccessLogsQuery))
                     {
-                        if (hash_file('sha256', $fileName) != "")
+                        while ($accessLogData = mysqli_fetch_array($sqlFetchResult))
                         {
-                    ?><tr>
-                        <td><?php echo $fileName; ?></td>
-                        <td><?php echo formatSizeUnits(stat($fileName)['size']); ?></td>
-                        <td><?php echo date('d.m.y h:i:s A', stat($fileName)['atime']); ?></td>
-                        <td><?php echo date('d.m.y h:i:s A',stat($fileName)['mtime']); ?></td>
-                        <td><?php echo hash_file('sha256', $fileName);?></td>
-                        <?php
-                        if ($privilegeLevel == "ADMIN")
-                        {
-                        ?>
-                        <th><button type="button" class="btn btn-secondary px-4 gap-3"><a class="downloadBtn" href="<?php echo $fileName; ?>" download="<?php echo $fileName; ?>">Download</a></button></th>
-                        <?php
-                        }
-                        else
-                        {
-                        ?>
-                        <th><button type="button" class="btn btn-secondary px-4 gap-3"><a class="downloadBtn" href="<?php echo $fileName; ?>" download="<?php echo $fileName; ?>">Request download</a></button></th>
-                        <?php
-                        }
-                        ?>
-                    </tr>
-                    <?php
+                            ?>
+                            <tr>
+                                <td><?php echo $accessLogData["ID"]; ?></td>
+                                <td><?php echo $accessLogData["IP"]; ?></td>
+                                <td><?php echo $accessLogData["countryName"] ?></td>
+                                <td><?php echo $accessLogData["regionName"] ?></td>
+                                <td><?php echo $accessLogData["cityName"] ?></td>
+                                <td><?php echo $accessLogData["ZIP"] ?></td>
+                                <td><?php echo $accessLogData["Latitude"] ?></td>
+                                <td><?php echo $accessLogData["Longitude"] ?></td>
+                                <td><?php echo $accessLogData["ISP"] ?></td>
+                                <td><?php echo $accessLogData["Organization"] ?></td>
+                                <td><?php echo $accessLogData["TimeStamp"] ?></td>
+                            </tr>
+                            <?php
                         }
                     }
                     ?>
