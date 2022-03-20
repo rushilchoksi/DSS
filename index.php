@@ -17,6 +17,7 @@ else if (date("H") >= "12" && (date("H") < "17"))
 else
     $greetingMsg = "Good evening, " . $_SESSION['USER_NAME'];
 
+$privilegeLevel = $_SESSION["USER_ROLE"];
 $filesList = scandir($SECURE_FILES_DIRECTORY);
 ?>
 <!doctype html>
@@ -48,7 +49,7 @@ $filesList = scandir($SECURE_FILES_DIRECTORY);
             th {
                 text-align: center;
             }
-            a, a:hover {
+            .downloadBtn, .downloadBtn:hover {
                 text-decoration: none;
                 color: white;
             }
@@ -74,6 +75,15 @@ $filesList = scandir($SECURE_FILES_DIRECTORY);
 					<img class="d-block mx-auto mb-4" src="<?php echo $PROJECT_LOGO; ?>" alt="" width="64">
 					<h2><?php echo $greetingMsg; ?></h2>
 					<p class="lead">Browse from over <?php echo count($filesList) - 1; ?>+ files securely hosted on <?php echo $PROJECT_NAME; ?> and collaborate with your team by sharing content securely across the internet.</p>
+                    <?php
+                    if ($privilegeLevel == "ADMIN")
+                    {
+                    ?>
+                    <button type="button" class="btn btn-secondary">Upload files</button>
+                    <button type="button" class="btn btn-secondary">View access logs</button>
+                    <?php
+                    }
+                    ?>
 				</div>
 			</main>
 		</div>
@@ -101,7 +111,20 @@ $filesList = scandir($SECURE_FILES_DIRECTORY);
                         <td><?php echo date('d.m.y h:i:s A', stat($fileName)['atime']); ?></td>
                         <td><?php echo date('d.m.y h:i:s A',stat($fileName)['mtime']); ?></td>
                         <td><?php echo hash_file('sha256', $fileName);?></td>
-                        <th><button type="button" class="btn btn-secondary px-4 gap-3"><a href="<?php echo $fileName; ?>" download="<?php echo $fileName; ?>">Request download</a></button></th>
+                        <?php
+                        if ($privilegeLevel == "ADMIN")
+                        {
+                        ?>
+                        <th><button type="button" class="btn btn-secondary px-4 gap-3"><a class="downloadBtn" href="<?php echo $fileName; ?>" download="<?php echo $fileName; ?>">Download</a></button></th>
+                        <?php
+                        }
+                        else
+                        {
+                        ?>
+                        <th><button type="button" class="btn btn-secondary px-4 gap-3"><a class="downloadBtn" href="<?php echo $fileName; ?>" download="<?php echo $fileName; ?>">Request download</a></button></th>
+                        <?php
+                        }
+                        ?>
                     </tr>
                     <?php
                         }
