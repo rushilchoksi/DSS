@@ -34,15 +34,16 @@ if ($rowCount > 0)
             $timeStamp = date("D d.m.Y h:i:s A");
 
             $userIPAddress = json_decode(file_get_contents("http://httpbin.org/ip"), true)["origin"];
-            $geoLocationAPIURL = json_decode(file_get_contents("http://ip-api.com/json/$userIPAddress"), true);
-            $countryName = $geoLocationAPIURL["country"];
-            $regionName = $geoLocationAPIURL["regionName"];
-            $cityName = $geoLocationAPIURL["city"];
-            $zipCode = $geoLocationAPIURL["zip"];
-            $latitudeValue = $geoLocationAPIURL["lat"];
-            $longitudeValue = $geoLocationAPIURL["lon"];
-            $ispName = $geoLocationAPIURL["isp"];
-            $orgName = $geoLocationAPIURL["org"];
+            $geoLocationAPI = json_decode(file_get_contents("http://ip-api.com/json/$userIPAddress"), true);
+
+            $countryName = $geoLocationAPI["country"];
+            $regionName = $geoLocationAPI["regionName"];
+            $cityName = $geoLocationAPI["city"];
+            $zipCode = $geoLocationAPI["zip"];
+            $latitudeValue = $geoLocationAPI["lat"];
+            $longitudeValue = $geoLocationAPI["lon"];
+            $ispName = $geoLocationAPI["isp"];
+            $orgName = $geoLocationAPI["org"];
 
             $sqlFetchUserQuery = $dbConnection->prepare("INSERT INTO `accessLogs` (`IP`, `countryName`, `regionName`, `cityName`, `ZIP`, `Latitude`, `Longitude`, `ISP`, `Organization`, `TimeStamp`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             $sqlFetchUserQuery->bind_param('ssssssssss', $userIPAddress, $countryName, $regionName, $cityName, $zipCode, $latitudeValue, $longitudeValue, $ispName, $orgName, $timeStamp);
@@ -55,6 +56,7 @@ if ($rowCount > 0)
             $_SESSION["AUTH"] = true;
             $_SESSION["USER_NAME"] = $rowData["Name"];
             $_SESSION["USER_EMAIL"] = $rowData["Email"];
+            $_SESSION["USER_ROLE"] = $rowData["Privileges"];
         }
     }
 }
