@@ -7,12 +7,11 @@
     <style type="text/css" media="all"> 
         @import url("style/style.css");
     </style>
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
 </head>
 <body>
 
     <?php 
-    $uploadFolder = "Data/panampshah@gmail.com";
+    $uploadFolder = "Data/panampshah@gmail.com/";
         if(isset($_FILES['file']))
         {       
             $target_path = $uploadFolder;
@@ -42,8 +41,10 @@
                 $filename = $uploadFolder . $file;
                 $parts = explode("_", $file);
                 $size = formatBytes(filesize($filename));
-                $added = date("m/d/Y", $parts[0]);
-                $origName = $parts[1];
+                // $added = date("m/d/Y", $parts[0]);
+                $added = "21/03/22";
+                // $origName = $parts[1];
+                $origName = $filename;
                 $filetype = getFileType(substr($file, strlen($file) - 3));
                 $uploaded_files .= "<li class=\"$filetype\"><a href=\"$filename\">$origName</a> $size - $added</li>\n";
             }
@@ -57,7 +58,7 @@
         function getFileType($extension)
         {
             $images = array('jpg', 'gif', 'png', 'bmp');
-            $docs   = array('txt', 'rtf', 'doc');
+            $docs   = array('txt', 'rtf', 'doc', 'pdf');
             $apps   = array('zip', 'rar', 'exe');
             
             if(in_array($extension, $images)) return "Images";
@@ -78,7 +79,7 @@
             return round($bytes, $precision) . ' ' . $units[$pow]; 
         } 
     ?>
- 
+
     <div id="container">
         <h1>Online File Storage</h1>
         
@@ -109,6 +110,13 @@
         </fieldset>
     </div>
 
+    <script>
+        $(document).ready(function()
+        {
+            prepareMenu();
+        });
+    </script>
     <script src="js/filestorage.js" />
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
 </body>
 </html>
