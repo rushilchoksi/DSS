@@ -4,7 +4,7 @@
 $PROJECT_NAME = 'Secure FTP';
 $PROJECT_LOGO = 'assets/images/logo.png';
 $PROJECT_THEME_COLOR = '#0D6EFD';
-$SECURE_FILES_DIRECTORY = '/Applications/XAMPP/xamppfiles/htdocs/dss';
+$SECURE_FILES_DIRECTORY = '/Applications/XAMPP/xamppfiles/htdocs/dss/';
 
 /* Database credentials */
 $hostName = 'localhost';
