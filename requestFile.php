@@ -18,7 +18,7 @@ else
     $greetingMsg = "Good evening, " . $_SESSION['USER_NAME'];
 
 $privilegeLevel = $_SESSION["USER_ROLE"];
-$filesList = scandir($SECURE_FILES_DIRECTORY);
+$_SESSION['FILE_NAME'] = $_POST["fileName"];
 ?>
 <!doctype html>
 <html lang="en">
@@ -61,14 +61,14 @@ $filesList = scandir($SECURE_FILES_DIRECTORY);
 			<div class="modal-dialog modal-dialog-centered" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title cb-employment-head" id="awaitingModalTitle" style="margin: auto;">Awaiting server response ...</h5>
+						<h5 class="modal-title cb-employment-head" id="awaitingModalTitle" style="margin: auto;">Requesting resources ...</h5>
 					</div>
 					<div class="modal-body" style="margin: auto;">
 						<div class="spinner-border text-dark" role="status"> </div>
 					</div>
 					<div class="modal-header">
 						<center class="text-area">
-							<p class="text-area" style="font-size: 16px;">Please wait while we acknowledge your request, do not refresh or reload this page.</p>
+							<p class="text-area" style="font-size: 16px;">Please wait while we acknowledge your request for access of <?php echo $_SESSION['FILE_NAME']; ?>, do not refresh or reload this page.</p>
 						</center>
 					</div>
 				</div>
@@ -78,14 +78,14 @@ $filesList = scandir($SECURE_FILES_DIRECTORY);
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="staticBackdropLabel">Upload file</h5>
+                        <h5 class="modal-title" id="staticBackdropLabel">Enter OTP sent to <?php echo maskEmail($_SESSION['USER_EMAIL']); ?></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form id="uploadForm" method="post" action="uploadFile.php" enctype="multipart/form-data">
+                    <form id="verifyOTPForm" method="post">
                         <div class="modal-body">
                                 <div class="mb-3">
-                                    <label for="formFile" class="form-label">Please select the file which you wish to upload</label>
-                                    <input class="form-control" type="file" name="fileData" id="formFile" required>
+                                    <label for="otpInputField" class="form-label">OTP</label>
+                                    <input type="text" name="userOTPValue" class="form-control" id="otpInputField">
                                 </div>
                         </div>
                         <div class="modal-footer">
@@ -101,7 +101,7 @@ $filesList = scandir($SECURE_FILES_DIRECTORY);
 				<div class="py-5 text-center">
 					<img class="d-block mx-auto mb-4" src="<?php echo $PROJECT_LOGO; ?>" alt="" width="64">
 					<h2><?php echo $greetingMsg; ?></h2>
-					<p class="lead">Browse from over <?php echo count($filesList) - 1; ?>+ files securely hosted on <?php echo $PROJECT_NAME; ?> and collaborate with your team by sharing content securely across the internet.</p>
+					<p class="lead">Please wait while we respond to your request for access to <?php echo $_SESSION['FILE_NAME']; ?> from <?php echo $PROJECT_NAME; ?>'s servers, thank you!</p>
                     <?php
                     if ($privilegeLevel == "ADMIN")
                     {
@@ -114,57 +114,49 @@ $filesList = scandir($SECURE_FILES_DIRECTORY);
 				</div>
 			</main>
 		</div>
-        <div class="table-responsive" style="width: 90%; margin-right: auto; margin-left: auto;">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>File</th>
-                        <th>Size</th>
-                        <th>Last Accessed</th>
-                        <th>Last Modified</th>
-                        <th>Checksum (SHA256)</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    foreach ($filesList as $fileName)
-                    {
-                        if (is_dir($fileName) == false)
-                        {
-                    ?><tr>
-                        <td><?php echo $fileName; ?></td>
-                        <td><?php echo formatSizeUnits(stat($fileName)['size']); ?></td>
-                        <td><?php echo date('d.m.y h:i:s A', stat($fileName)['atime']); ?></td>
-                        <td><?php echo date('d.m.y h:i:s A',stat($fileName)['mtime']); ?></td>
-                        <td><?php echo hash('sha256', $fileName);?></td>
-                        <?php
-                        if ($privilegeLevel == "ADMIN")
-                        {
-                        ?>
-                        <th><button type="button" class="btn btn-secondary px-4 gap-3"><a class="downloadBtn" href="<?php echo $fileName; ?>" download="<?php echo $fileName; ?>">Download</a></button></th>
-                        <?php
-                        }
-                        else
-                        {
-                        ?><th>
-                            <form action="requestFile.php" method="post">
-                                <input type="hidden" name="fileName" value="<?php echo $fileName; ?>">
-                                <button type="submit" class="btn btn-secondary px-4 gap-3">Request download</button>
-                            </form>
-                        </th>
-                        <?php
-                        }
-                        ?></tr>
-                    <?php
-                        }
-                    }
-                    ?>
-                </tbody>
-            </table>
-        </div>
         <?php showFooter(); ?>
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 		<script src="https://getbootstrap.com/docs/5.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+        <script>
+            $(document).ready(function(){
+                $('#awaitingModal').modal('show');
+                $.ajax({
+                    type: "POST",
+                    url: 'sendMail.php',
+                    success: function(resultData)
+                    {
+                        console.log(resultData);
+                        $('#awaitingModal').modal('hide');
+                        $('#staticBackdrop').modal('show');
+                    }
+                });
+            });
+            $('#verifyOTPForm').on('submit', function(e){
+                e.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: 'verifyOTP.php',
+                    data: {
+                        form: $("#verifyOTPForm").serialize(),
+                    },
+                    success: function(resultData)
+                    {
+                        if (Number(Boolean(resultData)) == 1)
+                        {
+                            alert("Verified");
+                            window.location.href = 'grantFile';
+                        }
+                        else
+                        {
+                            alert("Incorrect OTP, please try again!");
+                        }
+                    },
+                    error: function(resultData)
+                    {
+                        alert("Something went wrong, please try again!");
+                    }
+                });
+            });
+        </script>
 	</body>
 </html>
