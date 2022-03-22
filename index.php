@@ -103,16 +103,6 @@ $filesList = scandir($SECURE_FILES_DIRECTORY);
                     <?php
                     foreach ($filesList as $fileName)
                     {
-<<<<<<< Updated upstream
-                        if (hash_file('sha256', $fileName) != "")
-                        {
-                    ?><tr>
-                        <td><?php echo $fileName; ?></td>
-                        <td><?php echo formatSizeUnits(stat($fileName)['size']); ?></td>
-                        <td><?php echo date('d.m.y h:i:s A', stat($fileName)['atime']); ?></td>
-                        <td><?php echo date('d.m.y h:i:s A',stat($fileName)['mtime']); ?></td>
-                        <td><?php echo hash_file('sha256', $fileName);?></td>
-=======
                         if (is_dir($SECURE_FILES_DIRECTORY . $fileName) == false)
                         {
                     ?><tr>
@@ -121,7 +111,6 @@ $filesList = scandir($SECURE_FILES_DIRECTORY);
                         <td><?php echo date('d.m.y h:i:s A', stat($SECURE_FILES_DIRECTORY . $fileName)['atime']); ?></td>
                         <td><?php echo date('d.m.y h:i:s A',stat($SECURE_FILES_DIRECTORY . $fileName)['mtime']); ?></td>
                         <td><?php echo hash('sha256', $fileName);?></td>
->>>>>>> Stashed changes
                         <?php
                         
                         if ($privilegeLevel == "ADMIN")

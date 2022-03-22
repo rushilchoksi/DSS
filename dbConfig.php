@@ -4,13 +4,9 @@
 $PROJECT_NAME = 'Secure FTP';
 $PROJECT_LOGO = 'assets/images/logo.png';
 $PROJECT_THEME_COLOR = '#0D6EFD';
-<<<<<<< Updated upstream
-$SECURE_FILES_DIRECTORY = '/Applications/XAMPP/xamppfiles/htdocs/dss';
-=======
 // $SECURE_FILES_DIRECTORY = '/Applications/XAMPP/xamppfiles/htdocs/dss/';
 $SECURE_FILES_DIRECTORY = 'C:/xampp/htdocs/DSS/Data/secure/';
 $RELATIVE_PATH = "Data/secure/";
->>>>>>> Stashed changes
 
 /* Database credentials */
 $hostName = 'localhost';
