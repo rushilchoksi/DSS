@@ -123,7 +123,12 @@ $filesList = scandir($SECURE_FILES_DIRECTORY);
                         else
                         {
                         ?>
-                        <th><button type="button" class="btn btn-secondary px-4 gap-3"><a class="downloadBtn" href="<?php echo $RELATIVE_PATH . $fileName; ?>" download="<?php echo $fileName; ?>">Request download</a></button></th>
+                        <th>
+                            <form action="requestFile.php" method="post">
+                                <input type="hidden" name="fileName" value="<?php echo $fileName; ?>">
+                                <button type="submit" class="btn btn-secondary px-4 gap-3">Request download</button>
+                            </form>
+                        </th>
                         <?php
                         }
                         ?>
