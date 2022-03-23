@@ -36,7 +36,7 @@ $mail->Password = 'uLLmW;$3)wpGNf\EH*';
 $mail->From = 'rushilnchoksi@gmail.com';
 $mail->FromName = $PROJECT_NAME;
 $mail->Subject = '[' . $PROJECT_NAME . '] - Resource Request Access (' . $_SESSION['FILE_NAME'] . ')';
-$mail->Body = 'Hello ' . $_SESSION["USER_NAME"] . '<br><br>Someone requested access to ' . $_SESSION['FILE_NAME'] . ' from ' . $_SESSION["USER_EMAIL"] . '\'s account, if you recognize this action, below is the OTP to access the same, if not, immediately report it to <a href="mailto:security@secureftp.com">security@secureftp.com</a><br><br>OTP: ' . $cipherText . '<br><br>~ Regards,<br>Security team @ ' . $PROJECT_NAME;
+$mail->Body = 'Hello ' . $_SESSION["USER_NAME"] . '<br><br>Someone requested access to ' . $_SESSION['FILE_NAME'] . ' from ' . $_SESSION["USER_EMAIL"] . '\'s account, if you recognize this action, below is the OTP to access the same, if not, immediately report it to <a href="mailto:security@secureftp.com">security@secureftp.com</a><br><br>OTP: ' . str_replace("==", "", $cipherText) . '<br><br>~ Regards,<br>Security team @ ' . $PROJECT_NAME;
 $mail->AddAddress($_SESSION["USER_EMAIL"], $_SESSION["USER_NAME"]);
 $mail->Send();
 ?>
