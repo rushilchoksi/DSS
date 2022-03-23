@@ -25,6 +25,7 @@ function showFooter()
             <li class="list-inline-item"><a style="text-decoration: none;" href="login">Login</a></li>
             <li class="list-inline-item"><a style="text-decoration: none;" href="register">Register</a></li>
             <li class="list-inline-item"><a style="text-decoration: none;" href="index">Home</a></li>
+            <li class="list-inline-item"><a style="text-decoration: none;" href="logoutUser">Logout</a></li>
         </ul>
     </footer>';
 }
