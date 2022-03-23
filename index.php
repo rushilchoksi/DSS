@@ -57,18 +57,45 @@ $filesList = scandir($SECURE_FILES_DIRECTORY);
 		<link href="https://getbootstrap.com/docs/5.1/examples/checkout/form-validation.css" rel="stylesheet">
 	</head>
 	<body class="bg-light">
-		<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-			<div class="modal-dialog">
+        <div class="modal fade" id="awaitingModal" tabindex="-1" role="dialog" aria-labelledby="awaitingModalTitle" aria-hidden="false">
+			<div class="modal-dialog modal-dialog-centered" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 style="margin: auto;" class="modal-title" id="staticBackdropLabel">Awaiting server response ...</h5>
+						<h5 class="modal-title cb-employment-head" id="awaitingModalTitle" style="margin: auto;">Awaiting server response ...</h5>
 					</div>
-					<div class="modal-body">
-						<center>Please wait while we validate your account.</center>
+					<div class="modal-body" style="margin: auto;">
+						<div class="spinner-border text-dark" role="status"> </div>
+					</div>
+					<div class="modal-header">
+						<center class="text-area">
+							<p class="text-area" style="font-size: 16px;">Please wait while we acknowledge your request, do not refresh or reload this page.</p>
+						</center>
 					</div>
 				</div>
 			</div>
 		</div>
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Upload file</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="uploadForm" method="post" action="uploadFile.php" enctype="multipart/form-data">
+                        <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="formFile" class="form-label">Please select the file which you wish to upload</label>
+                                    <input class="form-control" type="file" name="fileData" id="formFile" required>
+                                </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Proceed</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 		<div class="container">
 			<main>
 				<div class="py-5 text-center">
@@ -79,8 +106,8 @@ $filesList = scandir($SECURE_FILES_DIRECTORY);
                     if ($privilegeLevel == "ADMIN")
                     {
                     ?>
-                    <button type="button" class="btn btn-secondary">Upload files</button>
-                    <button type="button" class="btn btn-secondary" onclick="window.location.href = 'accessLogs'">View access logs</button>
+                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Upload files</button>
+                    <button type="button" class="btn btn-secondary" onclick="window.open('accessLogs', '_blank');">View access logs</button>
                     <?php
                     }
                     ?>

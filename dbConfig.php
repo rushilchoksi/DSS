@@ -58,4 +58,24 @@ function formatSizeUnits($bytes)
     }
     return $bytes;
 }
+
+/* Obfuscate user's email address */
+function mask($mainString, $firstVal, $lastVal)
+{
+    $stringLength = strlen($mainString);
+    $toShow = $firstVal + $lastVal;
+    return substr($mainString, 0, $stringLength <= $toShow ? 0 : $firstVal).str_repeat("*", $stringLength - ($stringLength <= $toShow ? 0 : $toShow)).substr($mainString, $stringLength - $lastVal, $stringLength <= $toShow ? 0 : $lastVal);
+}
+
+function maskEmail($email) {
+    $mailStripData = explode("@", $email);
+    $domainComponents = explode('.', $mailStripData[1]);
+
+    $mailStripData[0] = mask($mailStripData[0], 2, 1); // show first 2 letters and last 1 letter
+    $domainComponents[0] = mask($domainComponents[0], 2, 1); // same here
+    $mailStripData[1] = implode('.', $domainComponents);
+
+    return implode("@", $mailStripData);
+}
+
 ?>
