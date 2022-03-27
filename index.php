@@ -49,6 +49,9 @@ $filesList = scandir($SECURE_FILES_DIRECTORY);
             th {
                 text-align: center;
             }
+            .actionBtn {
+                width: 160px;
+            }
             .downloadBtn, .downloadBtn:hover {
                 text-decoration: none;
                 color: white;
@@ -106,8 +109,9 @@ $filesList = scandir($SECURE_FILES_DIRECTORY);
                     if ($privilegeLevel == "ADMIN")
                     {
                     ?>
-                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Upload files</button>
-                    <button type="button" class="btn btn-secondary" onclick="window.open('accessLogs', '_blank');">View access logs</button>
+                    <button type="button" class="btn btn-secondary actionBtn" onclick="window.open('approveRequests', '_blank');">Approve requests</button>
+                    <button type="button" class="btn btn-secondary actionBtn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Upload files</button>
+                    <button type="button" class="btn btn-secondary actionBtn" onclick="window.open('accessLogs', '_blank');">View access logs</button>
                     <?php
                     }
                     ?>

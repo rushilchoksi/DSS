@@ -10,7 +10,7 @@ $validUserFlag = 0;
 $clientEmail = $formData["email"];
 $clientPassword = $formData["password"];
 
-$sqlFetchUserQuery = $dbConnection->prepare("SELECT * FROM users WHERE Email = ?");
+$sqlFetchUserQuery = $dbConnection->prepare("SELECT * FROM users WHERE Email = ? AND Verified = 1");
 $sqlFetchUserQuery->bind_param('s', $clientEmail);
 $sqlFetchUserQuery->execute();
 
@@ -23,9 +23,6 @@ if ($rowCount > 0)
         $dbSaltValue = $rowData["saltValue"];
         $dbPasswordValue = $rowData["Password"];
         $clientPasswordHash = hash_pbkdf2("sha512", $clientPassword, $dbSaltValue, 1000, 64);
-
-        $clientPasswordHashSplit = str_split($clientPasswordHash, 32);
-        $dbPasswordHashSplit = str_split($dbPasswordValue, 32);
 
         if ($clientPasswordHash == $dbPasswordValue)
         {
