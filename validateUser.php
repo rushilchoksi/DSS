@@ -42,8 +42,8 @@ if ($rowCount > 0)
             $ispName = $geoLocationAPI["isp"];
             $orgName = $geoLocationAPI["org"];
 
-            $sqlFetchUserQuery = $dbConnection->prepare("INSERT INTO `accessLogs` (`IP`, `countryName`, `regionName`, `cityName`, `ZIP`, `Latitude`, `Longitude`, `ISP`, `Organization`, `TimeStamp`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            $sqlFetchUserQuery->bind_param('ssssssssss', $userIPAddress, $countryName, $regionName, $cityName, $zipCode, $latitudeValue, $longitudeValue, $ispName, $orgName, $timeStamp);
+            $sqlFetchUserQuery = $dbConnection->prepare("INSERT INTO `accessLogs` (`userEmail`, `IP`, `countryName`, `regionName`, `cityName`, `ZIP`, `Latitude`, `Longitude`, `ISP`, `Organization`, `TimeStamp`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $sqlFetchUserQuery->bind_param('sssssssssss', $clientEmail, $userIPAddress, $countryName, $regionName, $cityName, $zipCode, $latitudeValue, $longitudeValue, $ispName, $orgName, $timeStamp);
             $sqlFetchUserQuery->execute();
 
             $resultantAccessCount = (int)$dbAccessCount + 1;

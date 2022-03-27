@@ -82,6 +82,7 @@ if ($privilegeLevel != "ADMIN")
                 <thead>
                     <tr>
                         <th>ID</th>
+                        <th>User Email</th>
                         <th>IP</th>
                         <th>Country</th>
                         <th>Region</th>
@@ -104,6 +105,7 @@ if ($privilegeLevel != "ADMIN")
                             ?>
                             <tr>
                                 <td><?php echo $accessLogData["ID"]; ?></td>
+                                <td><?php echo $accessLogData["userEmail"]; ?></td>
                                 <td><?php echo $accessLogData["IP"]; ?></td>
                                 <td><?php echo $accessLogData["countryName"] ?></td>
                                 <td><?php echo $accessLogData["regionName"] ?></td>

@@ -80,7 +80,7 @@ else
     else
         $mail->Body = 'Hello ' . $userName . '<br><br>An update to your account was made, following is what the update was about, if you do not recognize this action, immediately report it to <a href="mailto:security@secureftp.com">security@secureftp.com</a><br><br>Account Name: ' . $userName . '<br>Account Email: ' . $userEmail . '<br>Current Account Status: <span style="color: #FF0000">' . $newAcctStatus . '</span><br><br>~ Regards,<br>Security team @ ' . $PROJECT_NAME;
     $mail->AddAddress($userEmail, $userName);
-    // $mail->Send();
+    $mail->Send();
 
     echo "<script>alert('$userName\'s account\'s status has been successfully $newAcctStatus, a confirmation for the same has been sent to $userEmail, thank you!'); window.location.href = 'approveRequests'; </script>";
 }
