@@ -99,13 +99,13 @@ require('dbConfig.php');
                         },
                         success: function(resultData) {
                             $('#staticBackdrop').modal('hide');
-							if (Number(Boolean(resultData)) == 1)
+							if (resultData == "1")
 							{
 								window.location.href = 'index';
 							}
 							else
 							{
-								alert('Invalid username or password, please try again!');
+								alert(resultData);
 								window.location.href = 'login';
 							}
                         },
