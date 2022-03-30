@@ -73,7 +73,7 @@ else
     $mail->Password = 'uLLmW;$3)wpGNf\EH*';
     $mail->From = 'rushilnchoksi@gmail.com';
     $mail->FromName = $PROJECT_NAME;
-    $mail->Subject = 'Account Status Update (' . $userName . ')';
+    $mail->Subject = '[' . $PROJECT_NAME . '] Account Status Update (' . $userName . ')';
 
     if ($newAcctStatus == "activated")
         $mail->Body = 'Hello ' . $userName . '<br><br>An update to your account was made, following is what the update was about, if you do not recognize this action, immediately report it to <a href="mailto:security@secureftp.com">security@secureftp.com</a><br><br>Account Name: ' . $userName . '<br>Account Email: ' . $userEmail . '<br>Current Account Status: <span style="color: #00B300">' . $newAcctStatus . '</span><br><br>~ Regards,<br>Security team @ ' . $PROJECT_NAME;
@@ -81,6 +81,42 @@ else
         $mail->Body = 'Hello ' . $userName . '<br><br>An update to your account was made, following is what the update was about, if you do not recognize this action, immediately report it to <a href="mailto:security@secureftp.com">security@secureftp.com</a><br><br>Account Name: ' . $userName . '<br>Account Email: ' . $userEmail . '<br>Current Account Status: <span style="color: #FF0000">' . $newAcctStatus . '</span><br><br>~ Regards,<br>Security team @ ' . $PROJECT_NAME;
     $mail->AddAddress($userEmail, $userName);
     $mail->Send();
+
+    $userIPAddress = json_decode(file_get_contents("http://httpbin.org/ip"), true)["origin"];
+    $geoLocationAPI = json_decode(file_get_contents("http://ip-api.com/json/$userIPAddress"), true);
+
+    $countryName = $geoLocationAPI["country"];
+    $regionName = $geoLocationAPI["regionName"];
+    $cityName = $geoLocationAPI["city"];
+    $zipCode = $geoLocationAPI["zip"];
+    $latitudeValue = $geoLocationAPI["lat"];
+    $longitudeValue = $geoLocationAPI["lon"];
+    $ispName = $geoLocationAPI["isp"];
+    $orgName = $geoLocationAPI["org"];
+
+    $adminMail = new PHPMailer;
+    $adminMail->CharSet = 'utf-8';
+    $adminMail->IsSMTP();
+    $adminMail->SMTPDebug = 1;
+    $adminMail->SMTPAuth = true;
+    $adminMail->SMTPSecure = 'ssl';
+    $adminMail->Host = "smtp.gmail.com";
+    $adminMail->Port = 465;
+    $adminMail->IsHTML(true);
+    $adminMail->Username = 'rushilnchoksi@gmail.com';
+    $adminMail->Password = 'uLLmW;$3)wpGNf\EH*';
+    $adminMail->From = 'rushilnchoksi@gmail.com';
+    $adminMail->FromName = $PROJECT_NAME;
+    $adminMail->Subject = '[' . $PROJECT_NAME . '] Account Status Update (' . $userName . ')';
+    $adminMail->Body = 'Hello there,<br><br>' . $_SESSION['USER_NAME'] . ' made an update to ' . $userName . '\'s account, below is what we know, if you do not recognize this action or have not authorized the same, immediately report it to <a href="mailto:security@secureftp.com">security@secureftp.com</a><br><br>Account Name: ' . $userName . '<br>Account Email: ' . $userEmail . '<br>Current Account Status: ' . $newAcctStatus . '<br>Moderator\'s Name: ' . $_SESSION['USER_NAME'] . '<br>Moderator\'s IP: ' . $userIPAddress . '<br>Country: ' . $countryName . '<br>Region: ' . $regionName . '<br>City: ' . $cityName . '<br>ZIP: ' . $zipCode . '<br>Latitude: ' . $latitudeValue . '<br>Longitude: ' . $longitudeValue . '<br>ISP: ' . $ispName . '<br><br>~ Regards,<br>Security team @ ' . $PROJECT_NAME;
+
+    $sqlFetchAccessLogsQuery = "SELECT * FROM `users` WHERE Privileges = 'ADMIN'";
+    if ($sqlFetchResult = mysqli_query($dbConnection, $sqlFetchAccessLogsQuery))
+    {
+        while ($accessLogData = mysqli_fetch_array($sqlFetchResult))
+            $adminMail->AddAddress($accessLogData["Email"], $accessLogData["Name"]);
+    }
+    $adminMail->Send();
 
     echo "<script>alert('$userName\'s account\'s status has been successfully $newAcctStatus, a confirmation for the same has been sent to $userEmail, thank you!'); window.location.href = 'approveRequests'; </script>";
 }
