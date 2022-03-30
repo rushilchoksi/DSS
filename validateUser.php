@@ -60,6 +60,7 @@ if ($rowCount > 0)
                 $_SESSION["USER_NAME"] = $rowData["Name"];
                 $_SESSION["USER_EMAIL"] = $rowData["Email"];
                 $_SESSION["USER_ROLE"] = $rowData["Privileges"];
+                $_SESSION["USER_DIRECTORY"] = $rowData["Directory"];
             }
             else
             {

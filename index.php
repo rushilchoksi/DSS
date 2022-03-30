@@ -18,7 +18,21 @@ else
     $greetingMsg = "Good evening, " . $_SESSION['USER_NAME'];
 
 $privilegeLevel = $_SESSION["USER_ROLE"];
-$filesList = scandir($SECURE_FILES_DIRECTORY);
+if ($_SESSION["USER_DIRECTORY"] == "*")
+{
+    $filesList = recursiveScan($SECURE_FILES_DIRECTORY);
+    $directoryName = "/";
+}
+else if ($_SESSION["USER_DIRECTORY"] == ".")
+{
+    $filesList = array();
+    $directoryName = "None";
+}
+else
+{
+    $filesList = recursiveScan($SECURE_FILES_DIRECTORY . "/" . $_SESSION["USER_DIRECTORY"]);
+    $directoryName = $_SESSION["USER_DIRECTORY"];
+}
 ?>
 <!doctype html>
 <html lang="en">
@@ -104,7 +118,8 @@ $filesList = scandir($SECURE_FILES_DIRECTORY);
 				<div class="py-5 text-center">
 					<img class="d-block mx-auto mb-4" src="<?php echo $PROJECT_LOGO; ?>" alt="" width="64">
 					<h2><?php echo $greetingMsg; ?></h2>
-					<p class="lead">Browse from over <?php echo count($filesList) - 1; ?>+ files securely hosted on <?php echo $PROJECT_NAME; ?> and collaborate with your team by sharing content securely across the internet.</p>
+					<p class="lead">Browse from over <?php if (count($filesList) > 1) echo count($filesList) - 1 . "+"; else echo 0 ?> files securely hosted on <?php echo $PROJECT_NAME; ?> and collaborate with your team by sharing content securely across the internet.</p>
+                    <span type="button" class="btn btn-primary">Directory assigned: <code style="color: white;"><?php echo $directoryName; ?></code></span><br><br>
                     <?php
                     if ($privilegeLevel == "ADMIN")
                     {
@@ -119,6 +134,12 @@ $filesList = scandir($SECURE_FILES_DIRECTORY);
 			</main>
 		</div>
         <div class="table-responsive" style="width: 90%; margin-right: auto; margin-left: auto;">
+            <?php
+            if (count($filesList) == 0)
+                echo "<p class='lead' style='text-align: center;'>You have not been assigned access to any files yet, if you think there's an issue, please contact the administrator.</p>";
+            else
+            {
+            ?>
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -137,7 +158,7 @@ $filesList = scandir($SECURE_FILES_DIRECTORY);
                         if (is_dir($fileName) == false)
                         {
                     ?><tr>
-                        <td><?php echo $fileName; ?></td>
+                        <td><?php if (strlen($fileName) > 20) echo substr($fileName, 0, 20) . " ..."; else echo $fileName ?></td>
                         <td><?php echo formatSizeUnits(stat($fileName)['size']); ?></td>
                         <td><?php echo date('d.m.y h:i:s A', stat($fileName)['atime']); ?></td>
                         <td><?php echo date('d.m.y h:i:s A',stat($fileName)['mtime']); ?></td>
@@ -166,6 +187,9 @@ $filesList = scandir($SECURE_FILES_DIRECTORY);
                     ?>
                 </tbody>
             </table>
+            <?php
+            }
+            ?>
         </div>
         <?php showFooter(); ?>
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
