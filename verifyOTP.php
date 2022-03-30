@@ -19,14 +19,21 @@ $userOTP = $formData["userOTPValue"];
 $plainText = base64_decode($userOTP);
 $finalPT = openssl_decrypt($plainText, 'DES-EDE3', 'Rushil', OPENSSL_RAW_DATA);
 
-if ($finalPT == $_SESSION['OTP_PLAIN_DATA'])
+if (isset($_SESSION['OTP_REQUEST_TIME']) && (time() - $_SESSION['OTP_REQUEST_TIME'] < 60))
 {
-    $_SESSION['VERIFIED'] = true;
-    echo true;
+    if ($finalPT == $_SESSION['OTP_PLAIN_DATA'])
+    {
+        $_SESSION['VERIFIED'] = true;
+        echo true;
+    }
+    else
+    {
+        $_SESSION['VERIFIED'] = false;
+        echo "Incorrect OTP, please try again!";
+    }
 }
 else
 {
-    $_SESSION['VERIFIED'] = false;
-    echo false;
+    echo "OTP session timed out due to inactivity, please request for the file again!";
 }
 ?>

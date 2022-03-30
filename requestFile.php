@@ -141,15 +141,10 @@ $_SESSION['FILE_NAME'] = $_POST["fileName"];
                     },
                     success: function(resultData)
                     {
-                        if (Number(Boolean(resultData)) == 1)
-                        {
-                            alert("Verified");
+                        if (resultData == "1")
                             window.location.href = 'grantFile';
-                        }
                         else
-                        {
-                            alert("Incorrect OTP, please try again!");
-                        }
+                            alert(resultData);
                     },
                     error: function(resultData)
                     {
