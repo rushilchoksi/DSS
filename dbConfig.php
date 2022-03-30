@@ -58,6 +58,23 @@ function formatSizeUnits($bytes)
     return $bytes;
 }
 
+/* Recursive directory scan function */
+function recursiveScan($directoryPath) {
+    $resultArray = [];
+    foreach(scandir($directoryPath) as $fileName) {
+        if ($fileName[0] === '.') continue;
+        $filePath = $directoryPath . '/' . $fileName;
+        if (is_dir($filePath))
+        {
+            foreach (recursiveScan($filePath) as $childFilename)
+                $resultArray[] = $fileName . '/' . $childFilename;
+        }
+        else
+            $resultArray[] = $fileName;
+    }
+    return $resultArray;
+}
+
 /* Obfuscate user's email address */
 function mask($mainString, $firstVal, $lastVal)
 {
