@@ -100,10 +100,28 @@ else
                     </div>
                     <form id="uploadForm" method="post" action="uploadFile.php" enctype="multipart/form-data">
                         <div class="modal-body">
-                                <div class="mb-3">
-                                    <label for="formFile" class="form-label">Please select the file which you wish to upload</label>
-                                    <input class="form-control" type="file" name="fileData" id="formFile" required>
-                                </div>
+                            <div class="mb-3">
+                                <label for="formFile" class="form-label">Please select the file which you wish to upload</label>
+                                <input class="form-control" type="file" name="fileData" id="formFile" required>
+                            </div>
+                            <div class="input-group mb-3">
+                                <label class="input-group-text" for="inputGroupSelect01">Choose directory</label>
+                                <select class="form-select" name="targetDir" id="inputGroupSelect01">
+                                    <?php
+                                        $dirPath = opendir($SECURE_FILES_DIRECTORY);
+                                        while ($dirName = readdir($dirPath))
+                                        {
+                                            if ((is_dir($dirName)) and ($dirName != '..'))
+                                            {
+                                                $dirNames = explode(' ', $dirName);
+                                                foreach ($dirNames as $indexValue => $mappingValue)
+                                                    echo "\n\t\t\t\t\t\t\t\t\t<option value=\"$mappingValue\">$mappingValue</option>";
+                                            }
+                                        }
+                                    ?>
+
+                                </select>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
