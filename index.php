@@ -145,6 +145,7 @@ else
                     <button type="button" class="btn btn-secondary actionBtn" onclick="window.open('approveRequests', '_blank');">Approve requests</button>
                     <button type="button" class="btn btn-secondary actionBtn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Upload files</button>
                     <button type="button" class="btn btn-secondary actionBtn" onclick="window.open('accessLogs', '_blank');">View access logs</button>
+                    <button type="button" class="btn btn-secondary actionBtn" onclick="window.open('modifyAccess', '_blank');">Modify privileges</button>
                     <?php
                     }
                     ?>
