@@ -154,7 +154,7 @@ $_SESSION['FILE_NAME'] = $_POST["fileName"];
                 });
             });
 
-            var countdown = 10, timer = setInterval(function() {
+            var countdown = 59, timer = setInterval(function() {
                 $("#otpTimer").html("00:" + String(countdown--).padStart(2, '0'));
                 if(countdown == 0) {
                     $("#finalMain").html("<p style='float: right;margin:0' id='finalMain'><span id='mainPlaceholder' style='color: red;'>OTP has expired</span></p>");
