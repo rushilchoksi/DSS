@@ -79,17 +79,18 @@ $_SESSION['FILE_NAME'] = $_POST["fileName"];
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="staticBackdropLabel">Enter OTP sent to <?php echo maskEmail($_SESSION['USER_EMAIL']); ?></h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="window.location.href='index'" aria-label="Close"></button>
                     </div>
                     <form id="verifyOTPForm" method="post">
                         <div class="modal-body">
+                            <p style="float: right;" id="finalMain"><span id="mainPlaceholder">OTP expires in </span><span id="otpTimer">01:00</span></p>
                                 <div class="mb-3">
                                     <label for="otpInputField" class="form-label">OTP</label>
                                     <input type="text" name="userOTPValue" class="form-control" id="otpInputField">
                                 </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-secondary" onclick="window.location.href='index'" data-bs-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary">Proceed</button>
                         </div>
                     </form>
@@ -152,6 +153,15 @@ $_SESSION['FILE_NAME'] = $_POST["fileName"];
                     }
                 });
             });
+
+            var countdown = 10, timer = setInterval(function() {
+                $("#otpTimer").html("00:" + String(countdown--).padStart(2, '0'));
+                if(countdown == 0) {
+                    $("#finalMain").html("<p style='float: right;margin:0' id='finalMain'><span id='mainPlaceholder' style='color: red;'>OTP has expired</span></p>");
+                    clearInterval(timer)
+                };
+            }, 1000);
+
         </script>
 	</body>
 </html>
