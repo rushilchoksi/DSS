@@ -33,7 +33,7 @@ if ($privilegeLevel != "ADMIN")
 		<meta name="generator" content="Hugo 0.88.1">
 		<title>Approve Requests · <?php echo $PROJECT_NAME; ?></title>
 		<link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/checkout/">
-		<link href="https://getbootstrap.com/docs/5.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+		<link href="assets/bootstrap.min.css" rel="stylesheet">
 		<link rel="icon" href="<?php echo $PROJECT_LOGO; ?>">
 		<meta name="theme-color" content="<?php echo $PROJECT_THEME_COLOR; ?>">
 		<style>
@@ -78,6 +78,9 @@ if ($privilegeLevel != "ADMIN")
 					<img class="d-block mx-auto mb-4" src="<?php echo $PROJECT_LOGO; ?>" alt="" width="64">
 					<h2><?php echo $greetingMsg; ?></h2>
 					<p class="lead"><?php echo $PROJECT_NAME; ?>  logs data for each separate request and can also be exported to standardized file sharing formats from within the interface.</p>
+                    <div class="alert alert-secondary" role="alert">
+                        (.) indicates access to no directories and (*) indicates access to all directories present in the configured directory for the FTP.
+                    </div>
 				</div>
 			</main>
 		</div>

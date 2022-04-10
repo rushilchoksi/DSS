@@ -2,8 +2,8 @@
 
 /* Variables */
 $PROJECT_NAME = 'Secure FTP';
-$PROJECT_LOGO = 'assets/images/logo.png';
-$PROJECT_THEME_COLOR = '#0D6EFD';
+$PROJECT_LOGO = 'assets/logo.png';
+$PROJECT_THEME_COLOR = '#FFAA06';
 $SECURE_FILES_DIRECTORY = '/Applications/XAMPP/xamppfiles/htdocs/dss/';
 
 /* Database credentials */

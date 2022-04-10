@@ -44,7 +44,7 @@ else
 		<meta name="generator" content="Hugo 0.88.1">
 		<title>Home · <?php echo $PROJECT_NAME; ?></title>
 		<link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/checkout/">
-		<link href="https://getbootstrap.com/docs/5.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+		<link href="assets/bootstrap.min.css" rel="stylesheet">
 		<link rel="icon" href="<?php echo $PROJECT_LOGO; ?>">
 		<meta name="theme-color" content="<?php echo $PROJECT_THEME_COLOR; ?>">
 		<style>
@@ -122,6 +122,9 @@ else
 
                                 </select>
                             </div>
+                            <div class="alert alert-secondary" role="alert">
+                                (.) indicates current working directory.
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -137,7 +140,7 @@ else
 					<img class="d-block mx-auto mb-4" src="<?php echo $PROJECT_LOGO; ?>" alt="" width="64">
 					<h2><?php echo $greetingMsg; ?></h2>
 					<p class="lead">Browse from over <?php if (count($filesList) > 1) echo count($filesList) - 1 . "+"; else echo 0 ?> files securely hosted on <?php echo $PROJECT_NAME; ?> and collaborate with your team by sharing content securely across the internet.</p>
-                    <span type="button" class="btn btn-primary">Directory assigned: <code style="color: white;"><?php echo $directoryName; ?></code></span><br><br>
+                    <button type="button" class="btn btn-primary">Directory assigned: <code style="color: white;"><?php echo $directoryName; ?></code></button><br><br>
                     <?php
                     if ($privilegeLevel == "ADMIN")
                     {

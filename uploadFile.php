@@ -19,7 +19,7 @@ if ($_POST["targetDir"] == ".")
     $targetDir = $SECURE_FILES_DIRECTORY . basename($fileName);
 else
     $targetDir = $SECURE_FILES_DIRECTORY . $_POST["targetDir"] . "/" . basename($fileName);
-    
+
 move_uploaded_file($_FILES["fileData"]["tmp_name"], $targetDir);
-echo "<script>alert('Your file: $fileName has been uploaded successfully!');</script>";
+echo "<script>alert('Your file: $fileName has been uploaded successfully!'); window.location.href='index'</script>";
 ?>

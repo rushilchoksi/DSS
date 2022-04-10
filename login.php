@@ -14,7 +14,7 @@ require('dbConfig.php');
 		<meta name="generator" content="Hugo 0.88.1">
 		<title>Login · <?php echo $PROJECT_NAME; ?></title>
 		<link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/checkout/">
-		<link href="https://getbootstrap.com/docs/5.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+		<link href="assets/bootstrap.min.css" rel="stylesheet">
 		<link rel="icon" href="<?php echo $PROJECT_LOGO; ?>">
 		<meta name="theme-color" content="<?php echo $PROJECT_THEME_COLOR; ?>">
 		<style>
